@@ -5,33 +5,44 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 rooms = {}
 
 class SignalConsumer(AsyncWebsocketConsumer):
+    
     async def connect(self):
-        self.room_name = self.scope['query_string'].decode().replace("room=", "")
-        self.room_group_name = f"signaling_{self.room_name}"
+        query_string = self.scope["query_string"].decode()
+        room_param = dict(qc.split("=") for qc in query_string.split("&"))
+        self.room_name = room_param.get("room", "default")
+        self.room_group_name = f"chat_{self.room_name}"
 
-        # Join room group
+        if self.room_name in rooms and len(rooms[self.room_name]) >= 2:
+            await self.accept()
+            await self.send(json.dumps({
+                "type": "error",
+                "message": "Room is full"
+            }))
+            await self.close()
+            return
+
+        await self.accept()
+
+        if self.room_name not in rooms:
+            rooms[self.room_name] = []
+
+        rooms[self.room_name].append(self.channel_name)
+
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
 
-        if self.room_name not in rooms:
-            rooms[self.room_name] = []
-        rooms[self.room_name].append(self.channel_name)
-
-        await self.accept()
-        print(f" {self.channel_name} joined {self.room_name}")
-
-    async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
-        if self.room_name in rooms:
+    async def disconnect(self, code):
+        if self.room_name in rooms and self.channel_name in rooms[self.room_name]:
             rooms[self.room_name].remove(self.channel_name)
             if not rooms[self.room_name]:
-                del rooms[self.room_name]
-        print(f" {self.channel_name} left {self.room_name}")
+                del rooms[self.room_name]  # Optional: clean up empty room
+
+        await self.channel_layer.group_discard(
+            f"chat_{self.room_name}",
+            self.channel_name
+        )
 
     async def receive(self, text_data):
         try:
