@@ -133,3 +133,90 @@ Expected output:
 
 ---
 
+
+# 💬 MCP Frontend Client (React + TypeScript)
+
+This is the frontend application for the **MCP (Message Context Protocol)** WebRTC signaling system. It connects to a Django ASGI backend via WebSockets and enables peer-to-peer communication through WebRTC DataChannels.
+
+---
+
+## 🚀 Features
+
+* Room-based signaling with custom WebSocket protocol (MCP)
+* Peer-to-peer messaging via WebRTC Data Channels
+* Dynamic UI for joining rooms, sending messages, and monitoring peer presence
+* Displays room name and real-time connection status
+* Smooth transition animations and stateful room handling
+
+---
+
+## 📁 Project Structure
+
+```
+mcp-frontend/
+├── public/                 # Static assets
+├── src/                    # App source code
+│   ├── App.tsx             # Main component logic
+│   └── main.tsx            # React DOM mounting
+├── index.html              # HTML entry
+├── package.json            # Project metadata
+└── vite.config.ts          # Vite config for TSX support
+```
+
+---
+
+## ⚙️ Setup & Run
+
+1. **Clone the repo and enter the frontend folder:**
+
+   ```bash
+   cd mcp-frontend
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   App will run at: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🔌 WebSocket Protocol (MCP)
+
+The frontend communicates with the backend via WebSocket using a custom protocol:
+
+```ts
+const socket = new WebSocket(`ws://localhost:8000/ws/signal/?room=ROOM_NAME`);
+```
+
+* On connection, a WebRTC `RTCPeerConnection` is created
+* A `DataChannel` named `chat` is established for P2P messaging
+* All signaling messages (`offer`, `answer`, `candidate`) are exchanged via socket
+
+---
+
+## 💬 Messaging Flow
+
+* User joins a room
+* First user becomes offerer and opens DataChannel
+* Second user responds and establishes P2P connection
+* Messages are exchanged directly between peers
+
+---
+
+## 🛡️ Peer Limit Protection
+
+Only **two peers** are allowed per room. When a third user attempts to join:
+
+* The backend rejects the WebSocket connection
+* The frontend detects and displays an error without rendering the chat interface
+
+---
