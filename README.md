@@ -223,4 +223,6 @@ Only **two peers** are allowed per room. When a third user attempts to join:
 
 ## 📹 Demo Video
 
-[Watch the demo video on Google Drive](https://drive.google.com/file/d/16pBCjq4vHJctinWHVDRJYTykVQXZg9uv/view?usp=drive_link)
+[![Watch the demo video on Google Drive](frontend/mcp-frontend/src/assets/video.png)](https://drive.google.com/file/d/16pBCjq4vHJctinWHVDRJYTykVQXZg9uv/view?usp=drive_link)
+
+> Click the thumbnail above to view the demo video on Google Drive
