@@ -220,3 +220,7 @@ Only **two peers** are allowed per room. When a third user attempts to join:
 * The frontend detects and displays an error without rendering the chat interface
 
 ---
+
+## 📹 Demo Video
+
+[Watch the demo video on Google Drive](https://drive.google.com/file/d/16pBCjq4vHJctinWHVDRJYTykVQXZg9uv/view?usp=drive_link)
