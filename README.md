@@ -167,7 +167,7 @@ mcp-frontend/
 
 ## ⚙️ Setup & Run
 
-1. **Clone the repo and enter the frontend folder:**
+1. **Enter the mcp-frontend folder:**
 
    ```bash
    cd mcp-frontend

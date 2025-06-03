@@ -13,8 +13,6 @@ function App() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
 
-
-
   const handleJoin = () => {
     if (!room.trim()) return;
 
@@ -134,14 +132,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white flex flex-col items-center justify-center transition-colors duration-300">
-      {/* <button
-        onClick={() => {
-          document.documentElement.classList.toggle("dark");
-        }}
-        // className="absolute top-4 right-4 px-4 py-2 bg-gray-200 dark:bg-gray-800 dark:text-white text-black rounded shadow-md"
-      >
-        Toggle Mode
-      </button> */}
       <div className="absolute top-4 right-4 px-4 py-">
         <DarkButton />
       </div>
